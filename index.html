@@ -209,6 +209,23 @@
         .seg-mini button { flex: 1; border: none; background: transparent; padding: 10px; font-size: 12px; font-weight: 700; color: var(--text-muted); border-radius: 9px; cursor: pointer; }
         .seg-mini button.active { background: var(--surface); color: var(--primary); box-shadow: var(--shadow-sm); }
 
+        /* ===== MODO PRUEBA DE USABILIDAD ===== */
+        #test-bar { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 8500; background: #0B1120; color: white; padding: 8px 12px; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        #test-bar.active { display: flex; }
+        #test-bar span { flex: 1; color: #CBD5E1; }
+        #test-bar strong { font-variant-numeric: tabular-nums; color: var(--accent-yellow); }
+        #test-bar button { border: none; border-radius: 8px; padding: 8px 10px; font-size: 11px; font-weight: 800; cursor: pointer; }
+        #btn-test-ok { background: var(--success); color: white; }
+        #btn-test-fail { background: var(--danger); color: white; }
+        #test-card { display: none; position: fixed; inset: 0; z-index: 8600; background: rgba(11,17,32,0.92); align-items: center; justify-content: center; padding: 20px; }
+        #test-card.active { display: flex; }
+        .test-card-box { background: white; border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; }
+        .test-card-box h3 { font-size: 20px; font-weight: 800; color: var(--primary); margin: 4px 0 8px; }
+        .test-card-box p { font-size: 15px; color: var(--text-main); line-height: 1.5; margin-bottom: 16px; }
+        .test-card-box textarea { width: 100%; min-height: 64px; border: 1px solid var(--border); border-radius: 10px; padding: 10px; font-size: 13px; margin-bottom: 12px; resize: vertical; }
+        .friction-row { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .friction-row strong { color: var(--primary); }
+
         /* ===== INFORME DEL PROYECTO ===== */
         .proj-hero { background: var(--primary); color: white; padding: 28px 20px 24px; position: relative; overflow: hidden; }
         .proj-hero::after { content: ''; position: absolute; right: -40px; top: -40px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(59,130,246,0.35), transparent 70%); }
@@ -668,6 +685,7 @@
                 <button class="seg-tab" data-tab="res"><span class="num">3</span>Resultados</button>
                 <button class="seg-tab" data-tab="con"><span class="num">3</span>Conclusiones</button>
                 <button class="seg-tab" data-tab="marca"><span class="num">4</span>Marca</button>
+                <button class="seg-tab" data-tab="pruebas"><span class="num">5</span>Pruebas</button>
             </div>
 
             <div class="content-pad" style="max-width: 760px; margin: 0 auto;">
@@ -804,6 +822,38 @@
                     </div>
                 </div>
 
+                <!-- 5. PRUEBAS DE USABILIDAD (taller 2do corte) -->
+                <div class="proj-panel" id="panel-pruebas">
+                    <h2 class="section-title">Pruebas de usabilidad</h2>
+                    <p class="section-subtitle">Prueba orientada a tareas: el participante usa la app, un integrante guía y otro observa en silencio. La app registra el tiempo, los clics y en qué pantalla se estanca cada persona.</p>
+
+                    <div class="glass-card">
+                        <div class="h-label">Iniciar una prueba</div>
+                        <div class="input-group" style="margin: 12px 0 16px;">
+                            <input type="text" id="test-participant" placeholder=" ">
+                            <label>Código del participante</label>
+                        </div>
+                        <button type="button" class="btn btn-dark" id="btn-test-start">Iniciar prueba (3 tareas)</button>
+                        <p class="card-text" style="margin-top: 10px; font-size: 12px;">Entrega el celular al participante. No lo ayudes si se estanca: ese dato es el más valioso.</p>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="h-label">Las 3 tareas</div>
+                        <ol class="q-list" id="test-task-list"></ol>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="h-label">Resultados</div>
+                        <p class="card-text" id="test-summary">Aún no hay pruebas registradas.</p>
+                        <div class="kpi-grid" id="test-kpis" style="margin-top: 12px;"></div>
+                        <div id="test-frictions"></div>
+                        <div style="display: flex; gap: 10px; margin-top: 12px;">
+                            <button type="button" class="btn btn-light" id="btn-test-export" style="flex: 1;">Descargar datos (CSV)</button>
+                            <button type="button" class="btn btn-light" id="btn-test-clear" style="flex: 1; color: var(--danger);">Borrar datos</button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 4. MARCA -->
                 <div class="proj-panel" id="panel-marca">
                     <h2 class="section-title">Identidad gráfica</h2>
@@ -887,7 +937,7 @@
     </nav>
 
     <!-- BOTÓN AURA AI -->
-    <div class="aura-fab" id="btn-aura-toggle" style="display: none;">
+    <div class="aura-fab" id="btn-aura-toggle" title="Asistente Aura" style="display: none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M9 10h.01"></path><path d="M15 10h.01"></path></svg>
     </div>
 
@@ -934,6 +984,24 @@
                 <div class="flow-step"><div class="flow-dot" style="background: var(--danger);">5</div><div><strong>Los rescatistas saben que estás ahí</strong><span>Un sensor de presencia detecta cuántas personas hay dentro. La baliza sonora de 110 dB y el GPS envían tu ubicación y el número de ocupantes a tus contactos y a los rescatistas.</span></div></div>
             </div>
             <button type="button" class="btn btn-dark" id="btn-howto-ok">Entendido</button>
+        </div>
+    </div>
+
+    <!-- MODO PRUEBA: barra del observador y tarjeta de cada tarea -->
+    <div id="test-bar">
+        <span id="test-bar-label">P01 · Tarea 1/3</span>
+        <strong id="test-bar-time">00:00</strong>
+        <button type="button" id="btn-test-ok" title="El participante logró la tarea">✓ Logró</button>
+        <button type="button" id="btn-test-fail" title="Se rindió o se estancó">✕ Se rindió</button>
+    </div>
+    <div id="test-card">
+        <div class="test-card-box">
+            <div class="h-label" id="test-card-step">Tarea 1 de 3</div>
+            <h3 id="test-card-title"></h3>
+            <p id="test-card-prompt"></p>
+            <textarea id="test-card-note" placeholder="Nota del observador sobre la tarea anterior (opcional)"></textarea>
+            <button type="button" class="btn btn-dark" id="btn-test-go">Empezar tarea</button>
+            <button type="button" class="btn btn-light" id="btn-test-cancel" style="margin-top: 8px;">Cancelar prueba</button>
         </div>
     </div>
 
@@ -1414,6 +1482,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnCheckoutPay.addEventListener('click', () => {
         if (!cartArray.length) { showToast('Agrega algo al carrito primero.'); return; }
+        testEvent('checkout', cartArray);
         btnCheckoutPay.innerText = 'Procesando...';
         setTimeout(() => {
             showToast('Demo: aquí se conectaría la pasarela de pago');
@@ -1470,6 +1539,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (count <= 0) {
                 endAlert();
                 showToast('Cápsula sellada. Sistema de vida activado.');
+                testEvent('sealed');
                 showScreen('func-screen', 'nav-func');
                 currentStep = 4;
                 updateDemoUI();
@@ -1590,6 +1660,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const lower = val.toLowerCase();
         const match = AURA_RESPUESTAS.find(([keys]) => keys.some(k => lower.includes(k)));
         const respuesta = match ? match[1] : 'Entendido. Puedo ayudarte con qué hacer durante un sismo, la batería, el kit, los materiales o el precio.';
+        if (match && match[0].includes('dentro')) testEvent('rescue_info');
 
         setTimeout(() => {
             chat.insertAdjacentHTML('beforeend', `<div class="msg ai">${escapeHTML(respuesta)}</div>`);
@@ -1747,6 +1818,232 @@ document.addEventListener('DOMContentLoaded', function () {
         if (navigator.clipboard) navigator.clipboard.writeText(hex).catch(() => {});
         showToast(`Color ${hex} copiado`);
     });
+
+    /* ================= MODO PRUEBA DE USABILIDAD =================
+       Prueba orientada a tareas (taller 2do corte, puntos 5 a 7).
+       Mide por tarea: éxito, tiempo, clics y pantalla donde se estanca.
+       Los datos quedan en este navegador y se descargan en CSV. */
+    const TEST_KEY = 'nexora_pruebas_v1';
+    const TEST_TASKS = [
+        { id: 'T1', title: 'Protégete de un sismo', start: 'login-screen', limit: 60, done: 'sealed',
+          prompt: 'Imagina que es de noche y te llega una alerta sísmica. Entra a la app y úsala para protegerte hasta que la cápsula quede sellada.' },
+        { id: 'T2', title: 'Entiende cómo te rescatan', start: 'home-screen', limit: 90, done: 'rescue_info',
+          prompt: 'Quedaste dentro de la cápsula. Busca en la app cómo sabrán los rescatistas que estás ahí adentro. Cuando lo encuentres, dilo en voz alta.' },
+        { id: 'T3', title: 'Compra tu cama', start: 'home-screen', limit: 120, done: 'checkout',
+          prompt: 'Quieres comprar una cama tamaño Queen de color Gris Titanio. Agrégala al carrito y llega hasta el botón de pago.' }
+    ];
+    const SCREEN_NAMES = { 'login-screen': 'Login', 'home-screen': 'Inicio', 'explore-screen': '3D', 'func-screen': 'SOS', 'store-screen': 'Tienda', 'profile-screen': 'Perfil', 'project-screen': 'Informe', 'eval-screen': 'Formulario' };
+    const PANEL_NAMES = { 'cart-panel': 'Carrito', 'aura-panel': 'Aura', 'howto-panel': '¿Cómo funciona?', 'kit-panel': 'Detalle kit' };
+
+    const openProjTab = name => document.querySelector(`#proj-tabs [data-tab="${name}"]`).click();
+    document.querySelector('#proj-tabs [data-tab="pruebas"]').addEventListener('click', () => renderTestResults());
+
+    const testBar = document.getElementById('test-bar');
+    const testCard = document.getElementById('test-card');
+    let test = null;          // prueba en curso: { participant, index, started, clicks, path, timer }
+
+    function loadTests() { try { return JSON.parse(localStorage.getItem(TEST_KEY)) || []; } catch (e) { return []; } }
+    function saveTests(rows) { try { localStorage.setItem(TEST_KEY, JSON.stringify(rows)); } catch (e) { showToast('No se pudieron guardar los datos en este navegador.'); } }
+
+    // Dónde está el usuario: pantalla + panel abierto, si hay uno
+    function whereAmI() {
+        const screen = document.querySelector('.screen.active');
+        const panel = document.querySelector('.slide-panel.active');
+        let name = screen ? (SCREEN_NAMES[screen.id] || screen.id) : '?';
+        if (panel) name += ' > ' + (PANEL_NAMES[panel.id] || panel.id);
+        if (document.getElementById('ar-modal').classList.contains('active')) name += ' > AR';
+        return name;
+    }
+
+    // Nombre legible del elemento tocado (para el seguimiento de clics)
+    function clickLabel(el) {
+        const target = el.closest('button, a, [id], .nav-item, .size-chip, .color-chip, .kit-card, .action-card');
+        if (!target) return 'Fondo';
+        const text = (target.getAttribute('title') || target.innerText || target.dataset.color || '').trim().replace(/\s+/g, ' ').slice(0, 32);
+        return text || target.id || target.className;
+    }
+
+    document.addEventListener('click', e => {
+        if (!test || !test.started || e.target.closest('#test-bar, #test-card')) return;
+        test.clicks++;
+        test.labels.push(clickLabel(e.target));
+        const here = whereAmI();
+        if (test.path[test.path.length - 1] !== here) test.path.push(here);
+    }, true);
+
+    function fmtTime(ms) {
+        const s = Math.floor(ms / 1000);
+        return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+    }
+
+    function showTaskCard() {
+        const t = TEST_TASKS[test.index];
+        document.getElementById('test-card-step').innerText = `${test.participant} · Tarea ${test.index + 1} de ${TEST_TASKS.length}`;
+        document.getElementById('test-card-title').innerText = t.title;
+        document.getElementById('test-card-prompt').innerText = t.prompt;
+        document.getElementById('test-card-note').style.display = test.index > 0 ? 'block' : 'none';
+        document.getElementById('test-card-note').value = '';
+        testCard.classList.add('active');
+    }
+
+    function startTask() {
+        const t = TEST_TASKS[test.index];
+        // Cada tarea arranca desde un estado limpio
+        document.querySelectorAll('.slide-panel').forEach(p => p.classList.remove('active'));
+        if (t.start === 'login-screen') { isLogged = false; howtoShown = false; }
+        cartArray.length = 0;
+        updateCartUI();
+        showScreen(t.start, t.start === 'home-screen' ? 'nav-home' : '');
+        Object.assign(test, { started: Date.now(), clicks: 0, labels: [], path: [whereAmI()] });
+        testCard.classList.remove('active');
+        testBar.classList.add('active');
+        document.getElementById('test-bar-label').innerText = `${test.participant} · Tarea ${test.index + 1}/${TEST_TASKS.length}`;
+        clearInterval(test.timer);
+        test.timer = setInterval(() => {
+            const ms = Date.now() - test.started;
+            document.getElementById('test-bar-time').innerText = fmtTime(ms);
+            if (ms >= t.limit * 1000) finishTask(false, 'Tiempo agotado');
+        }, 250);
+    }
+
+    function finishTask(success, reason) {
+        if (!test || !test.started) return;
+        clearInterval(test.timer);
+        const t = TEST_TASKS[test.index];
+        const rows = loadTests();
+        rows.push({
+            fecha: new Date().toISOString().slice(0, 16).replace('T', ' '),
+            participante: test.participant,
+            tarea: t.id,
+            nombre_tarea: t.title,
+            exito: success ? 'si' : 'no',
+            motivo: success ? 'Completó' : reason,
+            tiempo_s: Math.round((Date.now() - test.started) / 100) / 10,
+            clics: test.clicks,
+            pantalla_final: whereAmI(),
+            ruta: test.path.join(' -> '),
+            elementos_tocados: test.labels.join(' | '),
+            nota: ''
+        });
+        saveTests(rows);
+        test.started = null;
+        testBar.classList.remove('active');
+        endAlert();
+        test.index++;
+        if (test.index < TEST_TASKS.length) {
+            showTaskCard();
+        } else {
+            test = null;
+            document.querySelectorAll('.slide-panel').forEach(p => p.classList.remove('active'));
+            showScreen('project-screen', 'nav-report');
+            openProjTab('pruebas');
+            renderTestResults();
+            showToast('Prueba terminada. ¡Gracias al participante!');
+        }
+    }
+
+    // La app avisa cuando el participante logra el objetivo de la tarea
+    function testEvent(name, data) {
+        if (!test || !test.started) return;
+        const t = TEST_TASKS[test.index];
+        if (t.done !== name) return;
+        if (name === 'checkout') {
+            const ok = (data || []).some(i => i.size === 'Queen' && i.color === 'Gris Titanio');
+            if (!ok) return;   // llegó al pago pero con otra configuración: sigue contando
+        }
+        setTimeout(() => finishTask(true), 600);
+    }
+
+    document.getElementById('btn-test-start').addEventListener('click', () => {
+        const participants = new Set(loadTests().map(r => r.participante));
+        const input = document.getElementById('test-participant');
+        const code = input.value.trim() || 'P' + String(participants.size + 1).padStart(2, '0');
+        input.value = '';
+        test = { participant: code, index: 0, started: null, timer: null };
+        showTaskCard();
+    });
+
+    document.getElementById('btn-test-go').addEventListener('click', () => {
+        // La nota del observador corresponde a la tarea anterior
+        const note = document.getElementById('test-card-note').value.trim();
+        if (note) {
+            const rows = loadTests();
+            if (rows.length) { rows[rows.length - 1].nota = note; saveTests(rows); }
+        }
+        startTask();
+    });
+    document.getElementById('btn-test-cancel').addEventListener('click', () => {
+        testCard.classList.remove('active');
+        test = null;
+        showToast('Prueba cancelada');
+    });
+    document.getElementById('btn-test-ok').addEventListener('click', () => finishTask(true));
+    document.getElementById('btn-test-fail').addEventListener('click', () => finishTask(false, 'Se rindió / se estancó'));
+
+    document.getElementById('test-task-list').innerHTML = TEST_TASKS.map(t =>
+        `<li><strong>${escapeHTML(t.title)}</strong> (máx. ${t.limit} s): ${escapeHTML(t.prompt)}</li>`).join('');
+
+    function renderTestResults() {
+        const rows = loadTests();
+        const people = new Set(rows.map(r => r.participante));
+        const summary = document.getElementById('test-summary');
+        const kpiBox = document.getElementById('test-kpis');
+        const frictionBox = document.getElementById('test-frictions');
+        if (!rows.length) {
+            summary.innerText = 'Aún no hay pruebas registradas.';
+            kpiBox.innerHTML = frictionBox.innerHTML = '';
+            return;
+        }
+        summary.innerText = `${people.size} participantes · ${rows.length} tareas registradas.`;
+
+        const stats = TEST_TASKS.map(t => {
+            const r = rows.filter(x => x.tarea === t.id);
+            const ok = r.filter(x => x.exito === 'si');
+            const avg = ok.length ? ok.reduce((s, x) => s + x.tiempo_s, 0) / ok.length : 0;
+            const clicks = r.length ? r.reduce((s, x) => s + x.clics, 0) / r.length : 0;
+            return { t, n: r.length, rate: r.length ? Math.round(ok.length / r.length * 100) : 0, avg, clicks, fails: r.filter(x => x.exito === 'no') };
+        });
+        kpiBox.innerHTML = stats.map(s => `
+            <div class="kpi ${s.rate >= 80 ? 'good' : s.rate < 50 ? 'alert' : ''}">
+                <strong>${s.rate}%</strong>
+                <span>${s.t.id} · ${escapeHTML(s.t.title)}<br>${s.avg.toFixed(1)} s promedio · ${s.clicks.toFixed(1)} clics</span>
+            </div>`).join('');
+
+        // Fricciones: dónde abandonan y qué tocan más
+        const abandon = {};
+        stats.forEach(s => s.fails.forEach(f => {
+            const k = `${s.t.id} · ${f.pantalla_final}`;
+            abandon[k] = (abandon[k] || 0) + 1;
+        }));
+        const taps = {};
+        rows.forEach(r => (r.elementos_tocados || '').split(' | ').filter(Boolean).forEach(l => { taps[l] = (taps[l] || 0) + 1; }));
+        const top = Object.entries(taps).sort((a, b) => b[1] - a[1]).slice(0, 8);
+        const ab = Object.entries(abandon).sort((a, b) => b[1] - a[1]);
+        frictionBox.innerHTML =
+            `<div class="card-title" style="font-size: 14px; margin-top: 8px;">Dónde se estancan</div>` +
+            (ab.length ? ab.map(([k, v]) => `<div class="friction-row"><span>${escapeHTML(k)}</span><strong>${v} de ${people.size}</strong></div>`).join('')
+                       : '<p class="card-text">Nadie ha abandonado una tarea.</p>') +
+            `<div class="card-title" style="font-size: 14px; margin-top: 16px;">Elementos más tocados</div>` +
+            top.map(([k, v]) => `<div class="friction-row"><span>${escapeHTML(k)}</span><strong>${v} toques</strong></div>`).join('');
+    }
+
+    document.getElementById('btn-test-export').addEventListener('click', () => {
+        const rows = loadTests();
+        if (!rows.length) { showToast('Aún no hay datos para descargar.'); return; }
+        const cols = Object.keys(rows[0]);
+        const esc = v => `"${String(v).replace(/"/g, '""')}"`;
+        const csv = '﻿' + [cols.join(';')].concat(rows.map(r => cols.map(c => esc(r[c])).join(';'))).join('\r\n');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+        a.download = 'nexora-pruebas-usabilidad.csv';
+        a.click();
+    });
+    document.getElementById('btn-test-clear').addEventListener('click', () => {
+        if (!confirm('¿Borrar todos los resultados de las pruebas guardados en este celular?')) return;
+        saveTests([]);
+        renderTestResults();
+    });
+    renderTestResults();
 
     // Abrir el informe directamente con #informe en la URL
     if (location.hash === '#informe') showScreen('project-screen');
